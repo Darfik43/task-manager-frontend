@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit the task &laquo;[[$task.title}]]&raquo; &ndash; Task-manager</title>
+</head>
+<body>
+    <a data-th-href="@{/api/v1/tasks/{taskId}(taskId=${task.id})}">&larr; To the task</a>
+    <h1>Edit the task &laquo;[[${task.title}]]</h1>
+    <div data-th-if="${errors}">
+        <h2>Errors occured</h2>
+        <ul>
+            <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+        </ul>
+    </div>
+    <form method="post" data-th-action="@{/api/v1/tasks/{taskId}(taskId=${task.id})}">
+        <label>
+            Title:<br>
+            <input type="text" name="title" data-th-value="${payload != null ? payload.title : task.title}">
+        </label><br>
+        <label>
+            Description:<br>
+            <textarea name="details" data-th-text="${payload != null ? payload.details : task.details}"></textarea>
+        </label><br>
+        <button type="submit">Edit</button>
+    </form>
+</body>
+</html>

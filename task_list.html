@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task list &ndash; Task-manager</title>
+</head>
+<body>
+  <a data-th-href ="@{/api/v1/tasks}"> Create a task</a>
+  <h1>All your tasks</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Task</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-th-each="task : ${tasks}">
+      <td data-th-text="${task.id}"></td>
+      <td>
+        <a data-th-href="@{api/v1/tasks/{taskId}(taskId=${task.id})}"
+        data-th-text="${task.title}"></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</body>
+</html>
