@@ -25,10 +25,8 @@ function sendAuthRequest() {
             }
 
             const data = await response.json();
-            alert("Успешный вход: " + JSON.stringify(data));
         } catch (error) {
             console.error("Ошибка при авторизации:", error);
-            alert("Не удалось войти. Проверьте логин и пароль.");
         }
     });
 }
