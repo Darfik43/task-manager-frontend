@@ -8,13 +8,14 @@ function sendAuthRequest() {
         const passwordInput = document.getElementById("passwordInput").value;
 
         try {
+            // TODO need to replace concrete url with some config or anything
             const response = await fetch("http://localhost:8080/api/v1/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    login: loginInput,
+                    email: loginInput,
                     password: passwordInput
                 })
             });
