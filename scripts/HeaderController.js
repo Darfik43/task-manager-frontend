@@ -21,7 +21,7 @@ export default class HeaderController {
     }
 
     async renderHeader() {
-        const headerHtml = await this.loadHtmlTemplate("header.html");
+        const headerHtml = await this.loadHtmlTemplate("/static/header.html");
         this.headerContainer.innerHTML = headerHtml;
         this.updateAuthBlock();
     }
@@ -31,11 +31,7 @@ export default class HeaderController {
         const authControlBlock = this.headerContainer.querySelector(".auth-control-block");
 
         if (userInfo) {
-            const loggedInHtml = `
-                <span>Welcome, ${userInfo.email}</span>
-                <button class="button" id="logout-button">Logout</button>
-            `;
-            authControlBlock.innerHTML = loggedInHtml;
+            authControlBlock.innerHTML = (await fetch('/static/with-auth.html')).text();
 
             document.getElementById("logout-button").addEventListener("click", async () => {
                 const success = await this.authService.logout();
@@ -46,11 +42,8 @@ export default class HeaderController {
                 }
             });
         } else {
-            const loggedOutHtml = `
-                <button class="button" id="login-button">Login</button>
-                <button class="button" id="register-button">Register</button>
-            `;
-            authControlBlock.innerHTML = loggedOutHtml;
+            const loggedOutHtml = await fetch('/static/non-auth.html');
+            authControlBlock.innerHTML = await loggedOutHtml.text();
 
             document.getElementById("login-button").addEventListener("click", () => this.showLoginModal());
             document.getElementById("register-button").addEventListener("click", () => this.register());
