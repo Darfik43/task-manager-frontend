@@ -21,7 +21,7 @@ export default class HeaderController {
     }
 
     async renderHeader() {
-        const headerHtml = await this.loadHtmlTemplate("/templates/header.html");
+        const headerHtml = await this.loadHtmlTemplate("header.html");
         this.headerContainer.innerHTML = headerHtml;
         this.updateAuthBlock();
     }
@@ -32,7 +32,7 @@ export default class HeaderController {
 
         if (userInfo) {
             const loggedInHtml = `
-                <span>Welcome, ${userInfo.username}</span>
+                <span>Welcome, ${userInfo.email}</span>
                 <button class="button" id="logout-button">Logout</button>
             `;
             authControlBlock.innerHTML = loggedInHtml;
@@ -58,7 +58,7 @@ export default class HeaderController {
     }
 
     async showLoginModal() {
-        const loginHtml = await this.loadHtmlTemplate("/templates/login.html");
+        const loginHtml = await this.loadHtmlTemplate("login_modal.html");
         this.modalContainer.innerHTML = loginHtml;
         this.modalContainer.classList.remove("hidden");
 
@@ -71,10 +71,10 @@ export default class HeaderController {
         loginForm.addEventListener("submit", async (event) => {
             event.preventDefault();
             const formData = new FormData(loginForm);
-            const username = formData.get("username");
+            const email = formData.get("email");
             const password = formData.get("password");
 
-            const success = await this.authService.login(username, password);
+            const success = await this.authService.login(email, password);
             if (success) {
                 this.modalContainer.classList.add("hidden");
                 this.updateAuthBlock();
