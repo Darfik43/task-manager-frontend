@@ -1,4 +1,4 @@
-export default class AuthService {
+export default class UserService {
     constructor(apiBaseUrl) {
         this.apiBaseUrl = apiBaseUrl;
     }
@@ -7,7 +7,7 @@ export default class AuthService {
         try {
             const response = await fetch(`${this.apiBaseUrl}/user`, {
                 method: "GET",
-                headers: { Authorization: localStorage.getItem("accesstoken") },
+                headers: { Authorization: JSON.parse(localStorage.getItem("accesstoken")) },
             });
             if (response.ok) {
                 return await response.json(); // Возвращаем данные пользователя
@@ -22,17 +22,18 @@ export default class AuthService {
         }
     }
 
-    async login(username, password) {
+    async login(email, password) {
         try {
             const response = await fetch(`${this.apiBaseUrl}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem("accesstoken", data.accesstoken);
+                localStorage.setItem("accesstoken", JSON.stringify(data.accessToken));
+                localStorage.setItem("refreshtoken", JSON.stringify(data.refreshToken));
                 return true;
             } else {
                 return false;
