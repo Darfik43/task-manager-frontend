@@ -25,6 +25,9 @@ function sendAuthRequest() {
             }
 
             const data = await response.json();
+
+            localStorage.setItem("jwtaccesstoken", JSON.stringify(data.accessToken));
+            localStorage.setItem("jwtrefreshtoken", JSON.stringify(data.refreshToken));
         } catch (error) {
             console.error("Ошибка при авторизации:", error);
         }
