@@ -31,19 +31,27 @@ export default class HeaderController {
         const authControlBlock = this.headerContainer.querySelector(".auth-control-block");
 
         if (userInfo) {
-            authControlBlock.innerHTML = (await fetch('/static/with-auth.html')).text();
+            // Загружаем HTML и заменяем плейсхолдеры
+            const withAuthHtmlResponse = await fetch('/static/with-auth.html');
+            let withAuthHtml = await withAuthHtmlResponse.text();
+            withAuthHtml = withAuthHtml.replace("${userInfo.email}", userInfo.email);
+
+            authControlBlock.innerHTML = withAuthHtml;
 
             document.getElementById("logout-button").addEventListener("click", async () => {
                 const success = await this.authService.logout();
                 if (success) {
-                    this.updateAuthBlock();
+                    await this.updateAuthBlock(); // Обновляем блок после успешного logout
                 } else {
                     alert("Logout failed.");
                 }
             });
         } else {
-            const loggedOutHtml = await fetch('/static/non-auth.html');
-            authControlBlock.innerHTML = await loggedOutHtml.text();
+            // Загружаем HTML для незалогиненного пользователя
+            const nonAuthHtmlResponse = await fetch('/static/non-auth.html');
+            const nonAuthHtml = await nonAuthHtmlResponse.text();
+
+            authControlBlock.innerHTML = nonAuthHtml;
 
             document.getElementById("login-button").addEventListener("click", () => this.showLoginModal());
             document.getElementById("register-button").addEventListener("click", () => this.register());
