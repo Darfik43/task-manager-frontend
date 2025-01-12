@@ -51,7 +51,7 @@ export default class HeaderController {
     }
 
     async showLoginModal() {
-        const loginHtml = await this.loadHtmlTemplate("login_modal.html");
+        const loginHtml = await this.loadHtmlTemplate("/static/login_modal.html");
         this.modalContainer.innerHTML = loginHtml;
         this.modalContainer.classList.remove("hidden");
 
