@@ -31,7 +31,6 @@ export default class HeaderController {
         const authControlBlock = this.headerContainer.querySelector(".auth-control-block");
 
         if (userInfo) {
-            // Загружаем HTML и заменяем плейсхолдеры
             const withAuthHtmlResponse = await fetch('/static/with-auth.html');
             let withAuthHtml = await withAuthHtmlResponse.text();
             withAuthHtml = withAuthHtml.replace("${userInfo.email}", userInfo.email);
@@ -41,13 +40,12 @@ export default class HeaderController {
             document.getElementById("logout-button").addEventListener("click", async () => {
                 const success = await this.authService.logout();
                 if (success) {
-                    await this.updateAuthBlock(); // Обновляем блок после успешного logout
+                    await this.updateAuthBlock();
                 } else {
                     alert("Logout failed.");
                 }
             });
         } else {
-            // Загружаем HTML для незалогиненного пользователя
             const nonAuthHtmlResponse = await fetch('/static/non-auth.html');
             const nonAuthHtml = await nonAuthHtmlResponse.text();
 
