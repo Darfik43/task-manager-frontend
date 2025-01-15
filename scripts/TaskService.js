@@ -7,8 +7,14 @@ export default class TaskService {
         // обработка добавления/удаления/редактирования таски
     }
 
-    async createTask() {
-
+    async createTask(title, details, isFinished) {
+        await fetch("api/v1/tasks", {
+            method: "POST",
+            headers: {
+                Authorization: JSON.parse(localStorage.getItem("accesstoken"))
+            },
+            body: JSON.stringify(title, details, isFinished),
+        })
     }
 
     async deleteTask() {
