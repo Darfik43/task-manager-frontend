@@ -14,11 +14,16 @@ export default class TaskService {
                 Authorization: JSON.parse(localStorage.getItem("accesstoken"))
             },
             body: JSON.stringify(title, details, isFinished),
-        })
+        });
     }
 
     async deleteTask() {
-
+        await fetch(`api/v1/task/{$id}`, {
+           method: "DELETE",
+           headers: {
+               Authorization: JSON.parse(localStorage.getItem("accesstoken"))
+           },
+        });
     }
 
     async editTask() {
