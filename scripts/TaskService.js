@@ -27,7 +27,13 @@ export default class TaskService {
     }
 
     async editTask() {
-
+        await fetch(`api/v1/task/{$id}`, {
+            method: "PATCH",
+            headers: {
+                Authorization: JSON.parse(localStorage.getItem("accesstoken"))
+            },
+            body: //TODO
+        });
     }
 
     async getTask() {
